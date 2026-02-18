@@ -3,8 +3,21 @@
 # **Travail Pratique d'Intelligence Artificielle Appliquée à la Finance**
 ## Apprentissage Supervisé (KNN), Évaluation et Surapprentissage
 
- <img src="Hajar.jpg" style="height:300px;margin-right:300px; float:left; border-radius:10px;"/>
- 
+
+<p align="right">
+<img src="https://raw.githubusercontent.com/hajar2004hamine/Support-AI/main/encg.png" width="120">
+</p> 
+
+<p align="left">
+<img src="https://raw.githubusercontent.com/hajar2004hamine/Support-AI/main/Hajar.jpg" width="120">
+</p>
+
+<br><br>
+
+<p align="left">
+<img src="https://github.com/user-attachments/assets/483ba06c-0cc1-4c28-be78-8203847bc3bf" width="120">
+</p>
+
 ---
 
 | | |
