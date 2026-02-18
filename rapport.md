@@ -7,11 +7,10 @@
                                                            
 <img src="encg.png" style="height:300px;margin-right:300px; float:left; border-radius:10px;"/>
 <img src="Hajar.jpg" style="height:300px;margin-right:300px; float:left; border-radius:10px;"/>
-<img width="2000" height="2830" alt="image" src="https://github.com/user-attachments/assets/483ba06c-0cc1-4c28-be78-8203847bc3bf" />
 
-<p align="right">
-<img src="profil.pdf" width="90">
-</p>
+<img src="https://github.com/user-attachments/assets/483ba06c-0cc1-4c28-be78-8203847bc3bf" width="120">
+
+
 
 
 ---
