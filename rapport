@@ -1,0 +1,255 @@
+
+---
+
+# TP d'Intelligence Artificielle Appliquée à la Finance
+
+## Évaluation de Modèles Supervisés (KNN) et Analyse de Risque
+
+**Cours** : Intelligence Artificielle – Finance, Contrôle, Audit et Conseil
+**Établissement** : ENCG Settat
+**Professeur** : A. Larhlimi
+
+**Étudiants :**
+
+* HAMINE Hajar
+* HASSI Asmae
+
+**Date :** 17 Février 2026
+
+---
+
+# Introduction
+
+Ce rapport présente une analyse complète d’un projet d’Intelligence Artificielle appliquée à la finance.
+
+Le travail est structuré en trois parties complémentaires :
+
+1. **Analyse de portefeuille et gestion du risque**
+2. **Scoring crédit par inférence bayésienne**
+3. **Modélisation prédictive avec K-Nearest Neighbors (KNN)**
+
+L’objectif est de démontrer comment transformer des données financières en décisions stratégiques à l’aide d’outils statistiques et de modèles d’apprentissage supervisé.
+
+---
+
+# Partie 1 : Statistiques et Loi Normale en Finance
+
+## 1.1 Contexte Métier
+
+Un client dispose d’un capital de **500 000 €** et impose une contrainte :
+
+> Perte maximale annuelle de 50 000 € (10%) avec un niveau de confiance de 95%.
+
+Deux portefeuilles sont analysés :
+
+* **Portefeuille A (Conservateur)** : grandes capitalisations européennes
+* **Portefeuille B (Agressif)** : petites capitalisations technologiques
+
+---
+
+## 1.2 Statistiques Descriptives
+
+### Portefeuille A (Conservateur)
+
+* Rendement mensuel moyen : **0.94%**
+* Écart-type mensuel : **0.48%**
+* Médiane : **1.00%**
+* Rendement annualisé : **11.85%**
+* Volatilité annualisée : **1.65%**
+
+### Portefeuille B (Agressif)
+
+* Rendement mensuel moyen : **2.89%**
+* Écart-type mensuel : **4.45%**
+* Médiane : **4.70%**
+* Rendement annualisé : **40.79%**
+* Volatilité annualisée : **15.41%**
+
+### Interprétation
+
+Le portefeuille B offre un rendement plus élevé mais présente une volatilité très importante.
+Le portefeuille A est plus stable et présente une distribution plus symétrique.
+
+---
+
+## 1.3 Value at Risk (VaR 95%)
+
+### VaR Mensuelle
+
+| Portefeuille | VaR (%) | Perte (€) |
+| ------------ | ------- | --------- |
+| A            | 0.15%   | 763 €     |
+| B            | -4.42%  | -22 118 € |
+
+### VaR Annuelle
+
+| Portefeuille | VaR (%) | Perte (€) |
+| ------------ | ------- | --------- |
+| A            | 8.53%   | 42 656 €  |
+| B            | 9.36%   | 46 796 €  |
+
+Les deux portefeuilles respectent la contrainte de 50 000 €.
+
+---
+
+## 1.4 Test de Normalité (Shapiro-Wilk)
+
+| Portefeuille | p-value |
+| ------------ | ------- |
+| A            | 0.000   |
+| B            | 0.001   |
+
+Les rendements ne suivent pas une loi normale (p-value < 0.05).
+La VaR paramétrique doit donc être interprétée avec prudence.
+
+---
+
+## 1.5 Ratio de Sharpe
+
+* **Sharpe A : 5.35**
+* **Sharpe B : 2.45**
+
+### Recommandation
+
+Le portefeuille A est recommandé car :
+
+* Meilleur rendement ajusté au risque
+* Volatilité plus faible
+* Respect de la contrainte client
+
+---
+
+# Partie 2 : Théorème de Bayes et Scoring Crédit
+
+## 2.1 Mise à Jour du Risque – Retard de Paiement
+
+### Données
+
+* P(D) = 5%
+* P(Retard | D) = 80%
+* P(Retard | ¬D) = 10%
+
+### Calcul
+
+P(D | Retard) = **29.63%**
+
+Le risque est multiplié par 6.
+
+### Décision Métier
+
+* Restriction immédiate du crédit
+* Surveillance renforcée
+
+---
+
+## 2.2 Mise à Jour Séquentielle
+
+Après découvert > 500 € :
+
+P(D | Retard ∧ Découvert) = **64.61%**
+
+Le client devient à très haut risque.
+
+---
+
+## 2.3 Lien avec la Précision
+
+Matrice de confusion :
+
+* TP = 400
+* FP = 950
+
+Précision :
+
+[
+Precision = \frac{400}{400 + 950} = 0.2963
+]
+
+La précision correspond exactement à la probabilité bayésienne calculée.
+
+---
+
+# Partie 3 : Modélisation Prédictive avec KNN
+
+## 3.1 Dataset
+
+* 2000 clients
+* 15% défaut
+* Dataset déséquilibré
+
+Corrélations très faibles entre features et défaut.
+
+---
+
+## 3.2 Préparation
+
+* Split stratifié 80/20
+* Standardisation avec StandardScaler
+* Évitement du data leakage
+
+---
+
+## 3.3 Optimisation de K
+
+Validation croisée 5-fold.
+
+| K | AUC  | Recall | Precision |
+| - | ---- | ------ | --------- |
+| 1 | 0.49 | 0.13   | 0.13      |
+| 3 | 0.48 | 0.04   | 0.12      |
+| 5 | 0.46 | 0.01   | 0.10      |
+
+### Conclusion
+
+* AUC ≈ 0.5 → Modèle quasi aléatoire
+* Objectifs métier non atteints
+
+---
+
+## 3.4 Évaluation Finale
+
+Matrice de confusion :
+
+* TP = 11
+* FP = 48
+* FN = 49
+* TN = 292
+
+### Métriques
+
+* Accuracy : 75.7%
+* Precision : 18.6%
+* Recall : 18.3%
+* F1-score : 18.5%
+* AUC : 0.52
+
+Le modèle est inutilisable.
+
+---
+
+## 3.5 Calcul du ROI
+
+* Gains (TP) : 165 000 €
+* Coûts (FP) : 81 600 €
+* Pertes (FN) : 735 000 €
+
+**ROI net = -651 600 €**
+
+Le modèle génère des pertes importantes.
+
+---
+
+# Conclusion Générale
+
+Ce TP met en évidence plusieurs enseignements majeurs :
+
+1. Le rendement seul ne suffit pas : le risque doit être intégré.
+2. Le théorème de Bayes est puissant pour le suivi dynamique du risque.
+3. Un modèle mal adapté peut générer un ROI négatif important.
+4. L’évaluation métier est essentielle dans un projet IA.
+
+Le modèle KNN étudié n’est pas viable.
+Des approches alternatives (feature engineering, modèles plus robustes) doivent être explorées.
+
+---
+
